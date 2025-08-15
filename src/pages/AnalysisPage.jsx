@@ -57,17 +57,38 @@ function AnalysisPage({ playlistId }) {
       : "N/A";
 
   const handleSave = () => {
-    if (!captureRef.current) return;
-    toPng(captureRef.current)
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "playlistreview.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.error("Error generating image:", err);
-      });
+  if (!captureRef.current) return;
+
+  const element = captureRef.current;
+
+  const originalMaxWidth = element.style.maxWidth;
+  const originalWidth = element.style.width;
+  const originalTransform = element.style.transform;
+  const originalScale = element.style.scale;
+
+  element.style.maxWidth = "none";
+  element.style.width = "1000px"; // ou plus (1200, 1400...) pour plus de qualité
+  element.style.transform = "scale(1)";
+  element.style.scale = "1";
+
+  toPng(element)
+    .then((dataUrl) => {
+      const link = document.createElement("a");
+      link.download = "playlistreview.png";
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch((err) => {
+      console.error("Error generating image:", err);
+    })
+    .finally(() => {
+      element.style.maxWidth = originalMaxWidth;
+      element.style.width = originalWidth;
+      element.style.transform = originalTransform;
+      element.style.scale = originalScale;
+    });
+
+
   };
 
   if (loading) return <p>Loading playlist…</p>;
