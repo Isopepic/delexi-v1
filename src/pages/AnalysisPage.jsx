@@ -57,18 +57,34 @@ function AnalysisPage({ playlistId }) {
       : "N/A";
 
   const handleSave = () => {
-    if (!captureRef.current) return;
-    toPng(captureRef.current)
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "playlistreview.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.error("Error generating image:", err);
-      });
-  };
+  const node = captureRef.current;
+  if (!node) return;
+
+  const width = node.scrollWidth;
+  const height = node.scrollHeight;
+
+  toPng(node, {
+    width: width,
+    height: height,
+    style: {
+      transform: "scale(1)",
+      transformOrigin: "top left",
+      width: `${width}px`,
+      height: `${height}px`,
+    },
+    pixelRatio: 3, // Qualité d’image boostée
+  })
+    .then((dataUrl) => {
+      const link = document.createElement("a");
+      link.download = "playlistreview.png";
+      link.href = dataUrl;
+      link.click();
+    })
+    .catch((err) => {
+      console.error("Erreur génération image:", err);
+    });
+};
+
 
   if (loading) return <p>Loading playlist…</p>;
   if (error) return <p style={{ color: "red" }}>Error: {error}</p>;
