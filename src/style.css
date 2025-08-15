@@ -200,7 +200,7 @@ button:focus-visible {
 
 
 .pdf-dark-mode {
-  background-color: #565657
+  background-color: #000000
 }
 
 @media print {
