@@ -197,3 +197,10 @@ button:focus-visible {
   display: flex;
   gap: 10px;
 }
+
+@media screen and (max-width: 600px) {
+  .songcard {
+    font-size: 14px;
+    flex-direction: column;
+  }
+}
