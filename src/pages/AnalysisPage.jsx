@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
 import SongCard from "../components/SongCard";
 import html2pdf from 'html2pdf.js';
+import html2canvas from 'html2canvas';
+
 
 
 function msToTime(ms) {
@@ -58,47 +60,22 @@ function AnalysisPage({ playlistId }) {
       ? (notes.reduce((sum, n) => sum + n, 0) / notes.length).toFixed(1)
       : "N/A";
 
-  const handleSave = () => {
+
+const handleSave = () => {
   if (!captureRef.current) return;
-
-  const node = captureRef.current;
-
-  // Cloner le contenu
-  const clone = node.cloneNode(true);
-  clone.style.width = "800px";                // 📏 Largeur fixe pour capture haute qualité
-  clone.style.maxWidth = "none";              // ✅ Supprime les limitations
-  clone.style.margin = "0";                   // 🔧 Supprime centrage si besoin
-  clone.style.padding = "2rem";
-  clone.style.fontSize = "1.5rem";
-
-  // Créer un conteneur temporaire invisible
-  const container = document.createElement("div");
-  container.style.position = "fixed";
-  container.style.top = "-9999px";            
-  container.style.left = "-9999px";
-  container.appendChild(clone);
-  document.body.appendChild(container);
-
-  // Attendre que le DOM s’affiche avant capture
-  requestAnimationFrame(() => {
-    toPng(clone, {
-      pixelRatio: 2.5,                        
-      backgroundColor: "#000",                 
+  toPng(captureRef.current, {pixelRatio: 6})
+    .then((dataUrl) => {
+      const link = document.createElement("a");
+      link.download = "delexi_review.png";
+      link.href = dataUrl;
+      link.click();
     })
-      .then((dataUrl) => {
-        const link = document.createElement("a");
-        link.download = "playlistreview.png";
-        link.href = dataUrl;
-        link.click();
-      })
-      .catch((err) => {
-        console.error("Erreur de génération :", err);
-      })
-      .finally(() => {
-        document.body.removeChild(container);  
-      });
-  });
+    .catch((err) => {
+      console.error("Error generating image:", err);
+    });
 };
+
+
 
 
 const handleDownloadPDF = () => {
@@ -159,7 +136,6 @@ const handleDownloadPDF = () => {
         {playlistData.tracks?.map((track, index) => (
   <div
     key={track.id || index}
-    className="print-page-break"
   >
     <SongCard
       index={index + 1}
