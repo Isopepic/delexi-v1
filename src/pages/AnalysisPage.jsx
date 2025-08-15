@@ -63,7 +63,7 @@ function AnalysisPage({ playlistId }) {
 
 const handleSave = () => {
   if (!captureRef.current) return;
-  toPng(captureRef.current, {pixelRatio: 6})
+  toPng(captureRef.current, {pixelRatio: 5})
     .then((dataUrl) => {
       const link = document.createElement("a");
       link.download = "delexi_review.png";
