@@ -33,7 +33,14 @@ function SongCard({ index, title, artist, duration, onNoteChange }) {
   width: "100%",              // s'adapte à l'écran
   boxSizing: "border-box", 
     }}>
-    <div className="song-card">
+    <div className="song-card" 
+    style={{
+  breakInside: "avoid",
+  pageBreakInside: "avoid",
+  padding: "1rem",
+  borderRadius: "12px",
+}}
+>
       {/* Étiquette colorée à gauche */}
       <div className="label-color" style={{ backgroundColor: labelColor }} />
 

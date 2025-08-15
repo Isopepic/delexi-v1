@@ -10,9 +10,9 @@ function App() {
     const id = params.get("playlist");
     if (id) {
       setPlaylistId(id);
-      document.body.classList.add("gradient-bg"); // ✅ Ajoute le dégradé
+      document.body.classList.add("gradient-bg"); 
     } else {
-      document.body.classList.remove("gradient-bg"); // ❌ Retire-le sur Home
+      document.body.classList.remove("gradient-bg"); 
     }
   }, []);
 

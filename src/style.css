@@ -198,3 +198,7 @@ button:focus-visible {
   gap: 10px;
 }
 
+
+.pdf-dark-mode {
+  background-color: #565657
+}
