@@ -75,6 +75,11 @@ function AnalysisPage({ playlistId }) {
   if (!playlistData) return <p>No data found.</p>;
 
   return (
+    <div style={{
+      maxWidth: "600px",           // limite sur mobile
+  margin: "0 auto",            // centre le contenu
+  padding: "1rem",  
+    }}>
     <div ref={captureRef} className="analysis-page" style={{ padding: "2rem", textAlign: "center" }}>
       <h2>🎧 {playlistData.name ?? "Untitled Playlist"}</h2>
       {playlistData.owner && <p>by {playlistData.owner}</p>}
@@ -136,6 +141,7 @@ function AnalysisPage({ playlistId }) {
       >
         Save as image
       </button>
+    </div>
     </div>
   );
 }

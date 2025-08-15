@@ -26,6 +26,13 @@ function SongCard({ index, title, artist, duration, onNoteChange }) {
   const labelColor = getColorFromNote(note);
 
   return (
+    <div style={{
+      display: "flex",
+  flexDirection: "column",
+  alignItems: "center",       // centre le contenu
+  width: "100%",              // s'adapte à l'écran
+  boxSizing: "border-box", 
+    }}>
     <div className="song-card">
       {/* Étiquette colorée à gauche */}
       <div className="label-color" style={{ backgroundColor: labelColor }} />
@@ -80,6 +87,7 @@ function SongCard({ index, title, artist, duration, onNoteChange }) {
               </button>
               <span className="note-outof">/10</span>
             </div>
+          </div>
           </div>
 
           {/* Word en italique direct */}
