@@ -109,7 +109,7 @@ const handleDownloadPDF = () => {
   element.classList.add("pdf-dark-mode");
 
   const opt = {
-    margin: 0.5,
+    margin: 0,
     filename: 'playlistreview.pdf',
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true },

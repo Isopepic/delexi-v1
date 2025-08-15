@@ -45,3 +45,8 @@
   page-break-after: always;
   break-after: page;
 }
+
+.songcard-page-break {
+  page-break-after: always;
+  break-after: page;
+}
