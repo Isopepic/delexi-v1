@@ -202,3 +202,10 @@ button:focus-visible {
 .pdf-dark-mode {
   background-color: #565657
 }
+
+@media print {
+  .pagebreak-print {
+    page-break-after: always;
+    break-after: page;
+  }
+}

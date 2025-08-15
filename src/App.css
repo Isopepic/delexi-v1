@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.pdf-dark-mode .print-page-break {
+  page-break-after: always;
+  break-after: page;
+}

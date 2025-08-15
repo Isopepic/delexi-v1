@@ -157,16 +157,21 @@ const handleDownloadPDF = () => {
 
       <div className="song-list" style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         {playlistData.tracks?.map((track, index) => (
-          <SongCard
-            key={track.id || index}
-            index={index + 1}
-            title={track.name}
-            artist={track.artist}
-            duration={msToTime(track.duration_ms)}
-            url={track.external_url}
-            onNoteChange={handleNoteChange}
-          />
-        ))}
+  <div
+    key={track.id || index}
+    className="print-page-break"
+  >
+    <SongCard
+      index={index + 1}
+      title={track.name}
+      artist={track.artist}
+      duration={msToTime(track.duration_ms)}
+      url={track.external_url}
+      onNoteChange={handleNoteChange}
+    />
+  </div>
+))}
+
       </div>
 
       {/* Note moyenne et appréciation */}
