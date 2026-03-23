@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
+import { pdf } from "@react-pdf/renderer";
 import SongCard from "../components/SongCard";
-import html2pdf from 'html2pdf.js';
+import PlaylistPDF from "../components/PlaylistPDF";
 
 
 
@@ -17,6 +18,7 @@ function AnalysisPage({ playlistId }) {
   const [loading, setLoading] = useState(true);
   const [globalNote, setGlobalNote] = useState("");
   const [notes, setNotes] = useState([]);
+  const [words, setWords] = useState([]);
   const captureRef = useRef(null);
 
   const PROXY_BASE = "https://delexi-proxy.onrender.com";
@@ -34,7 +36,8 @@ function AnalysisPage({ playlistId }) {
         if (!res.ok) throw new Error("Failed to fetch playlist");
         const data = await res.json();
         setPlaylistData(data);
-        setNotes(new Array(data.tracks.length).fill(0)); // initialise les notes à 0
+        setNotes(new Array(data.tracks.length).fill(0));
+        setWords(new Array(data.tracks.length).fill(""));
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -54,6 +57,14 @@ function AnalysisPage({ playlistId }) {
     });
   };
 
+  const handleWordChange = (index, value) => {
+    setWords((prev) => {
+      const updated = [...prev];
+      updated[index] = value;
+      return updated;
+    });
+  };
+
   const average =
     notes.length > 0
       ? (notes.reduce((sum, n) => sum + n, 0) / notes.length).toFixed(1)
@@ -62,39 +73,39 @@ function AnalysisPage({ playlistId }) {
 
 const handleSave = () => {
   if (!captureRef.current) return;
-  toPng(captureRef.current, {pixelRatio: 5})
+  const el = captureRef.current;
+  el.classList.add("capturing");
+  toPng(el, { pixelRatio: 5 })
     .then((dataUrl) => {
       const link = document.createElement("a");
       link.download = "delexi_review.png";
       link.href = dataUrl;
       link.click();
     })
-    .catch((err) => {
-      console.error("Error generating image:", err);
-    });
+    .catch((err) => console.error("Error generating image:", err))
+    .finally(() => el.classList.remove("capturing"));
 };
 
 
 
 
-const handleDownloadPDF = () => {
-  if (!captureRef.current) return;
-
-  const element = captureRef.current;
-
-  element.classList.add("pdf-dark-mode");
-
-  const opt = {
-    margin: 0,
-    filename: 'playlistreview.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-  };
-
-  html2pdf().set(opt).from(element).save().then(() => {
-    element.classList.remove("pdf-dark-mode");
-  });
+const handleDownloadPDF = async () => {
+  if (!playlistData) return;
+  const blob = await pdf(
+    <PlaylistPDF
+      playlistData={playlistData}
+      notes={notes}
+      words={words}
+      globalNote={globalNote}
+      average={average}
+    />
+  ).toBlob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "delexi_review.pdf";
+  link.click();
+  URL.revokeObjectURL(url);
 };
 
 
@@ -143,6 +154,8 @@ const handleDownloadPDF = () => {
       duration={msToTime(track.duration_ms)}
       url={track.external_url}
       onNoteChange={(_, value) => handleNoteChange(index, value)}
+      word={words[index] ?? ""}
+      onWordChange={(value) => handleWordChange(index, value)}
     />
   </div>
 ))}

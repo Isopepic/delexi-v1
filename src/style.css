@@ -199,8 +199,73 @@ button:focus-visible {
 }
 
 
-.pdf-dark-mode {
-  background-color: #838181
+/* ── Export / capture state ── */
+.capturing .note-button {
+  display: none !important;
+}
+
+.capturing .note-input {
+  border: none !important;
+  background: transparent !important;
+  pointer-events: none;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.capturing .word-section input[type="text"] {
+  display: none !important;
+}
+
+.capturing textarea {
+  border: none !important;
+  resize: none !important;
+  outline: none !important;
+  background: transparent !important;
+  pointer-events: none;
+}
+
+/* ── PDF light theme ── */
+.pdf-export {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+.pdf-export h2,
+.pdf-export h3,
+.pdf-export p {
+  color: #1a1a1a !important;
+}
+
+.pdf-export .song-card {
+  background-color: #f4f4f4 !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+.pdf-export .song-title {
+  color: #1a1a1a !important;
+}
+
+.pdf-export .song-artist {
+  color: #555 !important;
+}
+
+.pdf-export .song-duration {
+  color: #444 !important;
+}
+
+.pdf-export .note-label,
+.pdf-export .note-input,
+.pdf-export .note-outof {
+  color: #1a1a1a !important;
+}
+
+.pdf-export .word-section div {
+  color: #333 !important;
+}
+
+.pdf-export textarea {
+  color: #1a1a1a !important;
+  border-color: #ccc !important;
 }
 
 @media print {

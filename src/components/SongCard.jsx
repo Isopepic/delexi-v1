@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Clock3 } from "lucide-react";
 import "./SongCard.css";
 
-function SongCard({ index, title, artist, duration, onNoteChange }) {
+function SongCard({ index, title, artist, duration, onNoteChange, word, onWordChange }) {
   const [note, setNote] = useState(0);
-  const [word, setWord] = useState("");
 
   const getColorFromNote = (n) => {
     const scale = [
@@ -106,7 +105,7 @@ function SongCard({ index, title, artist, duration, onNoteChange }) {
               value={word}
               onChange={(e) => {
                 const val = e.target.value;
-                if (!val.includes(" ")) setWord(val);
+                if (!val.includes(" ")) onWordChange(val);
               }}
               style={{
                 background: "transparent",
