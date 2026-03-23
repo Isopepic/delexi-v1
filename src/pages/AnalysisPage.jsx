@@ -2,7 +2,6 @@ import { useEffect, useState, useRef } from "react";
 import { toPng } from "html-to-image";
 import SongCard from "../components/SongCard";
 import html2pdf from 'html2pdf.js';
-import html2canvas from 'html2canvas';
 
 
 
@@ -143,7 +142,7 @@ const handleDownloadPDF = () => {
       artist={track.artist}
       duration={msToTime(track.duration_ms)}
       url={track.external_url}
-      onNoteChange={handleNoteChange}
+      onNoteChange={(_, value) => handleNoteChange(index, value)}
     />
   </div>
 ))}
@@ -170,39 +169,39 @@ const handleDownloadPDF = () => {
         />
       </div>
 
-      <button
-        onClick={handleSave}
-        style={{
-          marginTop: "2rem",
-          padding: "0.75rem 1.5rem",
-          backgroundColor: "#444",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
-      >
-        Save as image
-      </button>
-
-      <button
-  onClick={handleDownloadPDF}
-  style={{
-    marginTop: "1rem",
-    padding: "0.75rem 1.5rem",
-    backgroundColor: "#222",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    fontWeight: "bold",
-  }}
->
-  Download as PDF
-</button>
-
     </div>
+
+      <div style={{ display: "flex", gap: "1rem", justifyContent: "center", marginTop: "2rem", paddingBottom: "2rem" }}>
+        <button
+          onClick={handleSave}
+          style={{
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#444",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Save as image
+        </button>
+
+        <button
+          onClick={handleDownloadPDF}
+          style={{
+            padding: "0.75rem 1.5rem",
+            backgroundColor: "#222",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: "bold",
+          }}
+        >
+          Download as PDF
+        </button>
+      </div>
     </div>
   );
 }
