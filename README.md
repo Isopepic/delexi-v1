@@ -115,7 +115,7 @@ Response shape:
 
 ## Deployment
 
-The app is live at **https://delexi-v1.vercel.com**.
+The app is live at **https://delexi-v1.vercel.app/**.
 
 Hosted on Vercel. The `vercel.json` rewrites all routes to `/` so client-side routing works correctly.
 
